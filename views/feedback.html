@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Libretto</title>
+    <style>
+        /* Base styles from index.html */
+        :root {
+            --primary: #2c5282;
+            --secondary: #f8f9fa;
+            --accent: #805ad5;
+            --text: #2d3748;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        /* Feedback specific styles */
+        .feedback-hero {
+            background: linear-gradient(rgba(44, 82, 130, 0.9), rgba(44, 82, 130, 0.9)),
+                        url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1920');
+            min-height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        .feedback-container {
+            max-width: 800px;
+            margin: -4rem auto 4rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 1;
+        }
+
+        .rating-group {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+        }
+
+        .rating-item {
+            text-align: center;
+            cursor: pointer;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .rating-item:hover {
+            background: var(--secondary);
+        }
+
+        .rating-item.selected {
+            background: var(--accent);
+            color: white;
+        }
+
+        .emoji {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .tag {
+            padding: 0.5rem 1rem;
+            background: var(--secondary);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tag.selected {
+            background: var(--accent);
+            color: white;
+        }
+
+        .feedback-form textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            margin: 1rem 0;
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem auto;
+            max-width: 1200px;
+            padding: 0 2rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .rating-group {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .rating-item {
+                flex: 1 1 30%;
+            }
+
+            .feedback-container {
+                margin-top: -2rem;
+                padding: 1.5rem;
+            }
+        }
+        footer{
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+        .nav {
+            background: var(--primary);
+            position: relative;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: black;
+            font-size: xx-large;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: large;
+            transition: all 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: white;
+            background-color: green;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Similar nav as index.html -->
+    <nav class="nav">
+        <a href="index.html" style="color: white; text-decoration: none;">
+            <h2>Libretto</h2>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="feedback.html">Feedback</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+    <section class="feedback-hero">
+        <div class="hero-content">
+            <h1>Your Feedback Matters</h1>
+            <p>Help us improve your library experience</p>
+        </div>
+    </section>
+
+    <div class="feedback-container">
+        <h2>Rate Your Experience</h2>
+        
+        <div class="rating-group">
+            <div class="rating-item">
+                <div class="emoji">😢</div>
+                <p>Poor</p>
+            </div>
+            <div class="rating-item">
+                <div class="emoji">😐</div>
+                <p>Fair</p>
+            </div>
+            <div class="rating-item">
+                <div class="emoji">🙂</div>
+                <p>Good</p>
+            </div>
+            <div class="rating-item">
+                <div class="emoji">😄</div>
+                <p>Excellent</p>
+            </div>
+        </div>
+
+        <h3>What aspects are you reviewing?</h3>
+        <div class="category-tags">
+            <span class="tag">Book Collection</span>
+            <span class="tag">User Interface</span>
+            <span class="tag">Customer Support</span>
+            <span class="tag">Loading Speed</span>
+            <span class="tag">Mobile App</span>
+        </div>
+
+        <div class="feedback-form">
+            <h3>Tell us more</h3>
+            <textarea placeholder="Share your thoughts with us..."></textarea>
+            <button type="submit" class="submit-btn">Submit Feedback</button>
+        </div>
+    </div>
+
+    <section class="testimonials">
+        <div class="testimonial-card">
+            <p>"The digital library has transformed how I read and learn. Amazing collection!"</p>
+            <div class="user-info">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e" alt="User" class="user-avatar">
+                <div>
+                    <h4>John Doe</h4>
+                    <p>Professional Reader</p>
+                </div>
+            </div>
+        </div>
+        <!-- Add more testimonials as needed -->
+    </section>
+    <!-- Similar footer as index.html -->
+     <footer>
+        <p>&copy; 2023 Libretto. All rights reserved.</p>
+     </footer>
+</body>
+</html>

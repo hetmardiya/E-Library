@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libretto - Online Library</title>
+    <style>
+        :root {
+            --primary: #2c5282;
+            --secondary: #f8f9fa;
+            --accent: #805ad5;
+            --text: #2d3748;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a365d 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #e0e7ff;
+            margin-bottom: 2rem;
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            background: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav a:hover {
+            background: var(--secondary);
+        }
+
+        /* User Circles */
+        .user-circles {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .circle {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .circle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Main Content Grid */
+        .main-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #e9d8fd 0%, #d6bcfa 100%);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .SLbtn {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 1rem;
+        }
+
+        .download-btn {
+            background: var(--accent);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #2f855a;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+        }
+
+        .sidebar h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            margin: 0.8rem 0;
+        }
+
+        .sidebar a {
+            color: #4a5568;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background: var(--secondary);
+            color: var(--accent);
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a202c;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .user-circles {
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="hero">
+        <h1>Welcome to Libretto</h1>
+        <p>Your Gateway to Endless Knowledge and Stories.</p>
+    </header>
+
+    <nav class="nav">
+        <div class="user-circles">
+            <div class="circle">L</div>
+            <div class="circle">M</div>
+        </div>
+        <div class="nav-links">
+            <a href="#">Browse</a>
+            <a href="#">My Books</a>
+            <a href="#">Reading Lists</a>
+            <a href="#">Join Now</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="main-content">
+            <div class="card">
+                <div class="card-image"></div>
+                <h3>Author Account</h3>
+                <p>Explore countless worlds through stories</p>
+                <div class="SLbtn">
+                    <button class="download-btn">Sign In</button>
+                    <button class="download-btn">Log In</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <h3>Reader Account</h3>
+                <p>Textbooks, journals, and research papers</p>
+                <div class="SLbtn">
+                    <button class="download-btn">Sign In</button>
+                    <button class="download-btn">Log In</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <h3>Admin Account</h3>
+                <p>Latest publications and periodicals</p>
+                <div class="SLbtn">
+                    <!-- <button class="download-btn">Sign In</button> -->
+                    <button class="download-btn">Log In</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2023 Libretto Online Library. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

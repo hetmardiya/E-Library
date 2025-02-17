@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Libretto</title>
+    <style>
+        /* Base styles from index.html */
+        :root {
+            --primary: #2c5282;
+            --secondary: #f8f9fa;
+            --accent: #805ad5;
+            --text: #2d3748;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        /* About specific styles */
+        .about-hero {
+            background: linear-gradient(rgba(44, 82, 130, 0.9), rgba(44, 82, 130, 0.9)),
+                        url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=1920');
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        .mission-section {
+            max-width: 1200px;
+            margin: -4rem auto 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+            background: var(--secondary);
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .team-section {
+            margin: 4rem auto;
+            max-width: 1200px;
+            padding: 2rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .member-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .member-info {
+            padding: 1.5rem;
+        }
+
+        .timeline {
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .timeline-item {
+            margin: 2rem 0;
+            position: relative;
+            width: 50%;
+            padding: 1rem;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .nav {
+            background: var(--primary);
+            position: relative;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: black;
+            font-size: xx-large;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: large;
+            transition: all 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: white;
+            background-color: green;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .timeline::before {
+                left: 0;
+            }
+
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+            }
+        }
+        .footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Similar nav as index.html -->
+    <nav class="nav">
+            <a href="index.html" style="color: white; text-decoration: none;">
+                <h2>Libretto</h2>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="feedback.html">Feedback</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+    <section class="about-hero">
+        <div class="hero-content">
+            <h1>About Libretto</h1>
+            <p>Transforming the way the world reads</p>
+        </div>
+    </section>
+
+    <section class="mission-section">
+        <h2>Our Mission</h2>
+        <p>To make knowledge accessible to everyone, everywhere.</p>
+        
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>1M+</h3>
+                <p>Active Users</p>
+            </div>
+            <div class="stat-item">
+                <h3>50K+</h3>
+                <p>Books</p>
+            </div>
+            <div class="stat-item">
+                <h3>100+</h3>
+                <p>Countries</p>
+            </div>
+            <div class="stat-item">
+                <h3>24/7</h3>
+                <p>Support</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <h2>Our Team</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80" alt="Team Member" class="member-img">
+                <div class="member-info">
+                    <h3>Sarah Johnson</h3>
+                    <p>Founder & CEO</p>
+                </div>
+            </div>
+            <!-- Add more team members as needed -->
+        </div>
+    </section>
+
+    <section class="timeline">
+        <h2>Our Journey</h2>
+        <div class="timeline-item">
+            <h3>2020</h3>
+            <p>Founded Libretto with a vision to revolutionize digital reading</p>
+        </div>
+        <div class="timeline-item">
+            <h3>2021</h3>
+            <p>Reached 500,000 users worldwide</p>
+        </div>
+        <div class="timeline-item">
+            <h3>2022</h3>
+            <p>Launched mobile applications</p>
+        </div>
+        <div class="timeline-item">
+            <h3>2023</h3>
+            <p>Expanded to 100+ countries</p>
+        </div>
+    </section>
+
+    <!-- Similar footer as index.html -->
+    <footer class="footer">
+        <p>&copy; 2023 Libretto. All rights reserved.</p>
+    </footer>
+</body>
+</html>

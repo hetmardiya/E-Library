@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Author Profile - Libretto</title>
+    <style>
+        :root {
+            --primary: #2c5282;
+            --secondary: #f8f9fa;
+            --accent: #805ad5;
+            --text: #2d3748;
+            --bg: #edf2f7;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header Section */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a365d 100%);
+            padding: 1.5rem 0;
+            color: white;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav a:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .auth-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .author-profile {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .author-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--accent);
+            object-fit: cover;
+        }
+
+        .author-info h1 {
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .author-bio {
+            color: #e2e8f0;
+            max-width: 600px;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* Image Slider */
+        .slider {
+            height: 400px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('book-cover.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .book-cover {
+            width: 180px;
+            height: 250px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #e9d8fd 0%, #d6bcfa 100%);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            margin: 1rem 0;
+        }
+
+        .sidebar a {
+            color: var(--secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background: var(--bg);
+            color: var(--accent);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .slider {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .auth-buttons {
+                gap: 0.5rem;
+            }
+            
+            .sidebar {
+                margin-top: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .auth-btn {
+                padding: 0.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="index.html" style="color: white; text-decoration: none;">
+                <h2>Libretto</h2>
+            </a>
+            <div class="nav-links">
+                <a href="#books">Books</a>
+                <a href="#about">About</a>
+                <a href="#events">Events</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="author-profile">
+                <img src="author-placeholder.jpg" alt="Author Name" class="author-image">
+                <div class="author-info">
+                    <h1>Sarah J. Mitchell</h1>
+                    <p class="author-bio">Award-winning author of contemporary fiction, with over 15 years of storytelling experience. Specializing in mystery and psychological thrillers.</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <p>Published Books</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <p>Literary Awards</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">500K+</div>
+                <p>Readers Worldwide</p>
+            </div>
+        </div>
+
+        <section class="book-grid">
+            <div class="book-card">
+                <div class="book-cover"></div>
+                <h3>The Silent Echo</h3>
+                <p>Latest Release - 2023</p>
+                <button class="download-btn">Read Preview</button>
+            </div>
+            <div class="book-card">
+                <div class="book-cover"></div>
+                <h3>Midnight Whispers</h3>
+                <p>Bestseller</p>
+                <button class="download-btn">Read Preview</button>
+            </div>
+            <div class="book-card">
+                <div class="book-cover"></div>
+                <h3>The Last Letter</h3>
+                <p>Award Winner</p>
+                <button class="download-btn">Read Preview</button>
+            </div>
+            <div class="book-card">
+                <div class="book-cover"></div>
+                <h3>The Silent Echo</h3>
+                <p>Latest Release - 2023</p>
+                <button class="download-btn">Read Preview</button>
+            </div>
+            <div class="book-card">
+                <div class="book-cover"></div>
+                <h3>Midnight Whispers</h3>
+                <p>Bestseller</p>
+                <button class="download-btn">Read Preview</button>
+            </div>
+            <div class="book-card">
+                <div class="book-cover"></div>
+                <h3>The Last Letter</h3>
+                <p>Award Winner</p>
+                <button class="download-btn">Read Preview</button>
+            </div>
+            <div class="book-card">
+                <div class="book-cover"></div>
+                <h3>The Silent Echo</h3>
+                <p>Latest Release - 2023</p>
+                <button class="download-btn">Read Preview</button>
+            </div>
+            <div class="book-card">
+                <div class="book-cover"></div>
+                <h3>Midnight Whispers</h3>
+                <p>Bestseller</p>
+                <button class="download-btn">Read Preview</button>
+            </div>
+            <div class="book-card">
+                <div class="book-cover"></div>
+                <h3>The Last Letter</h3>
+                <p>Award Winner</p>
+                <button class="download-btn">Read Preview</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2023 Sarah J. Mitchell | Libretto Online Library</p>
+    </footer>
+
+    <script>
+        // Simple slider implementation
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        
+        setInterval(() => {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }, 5000);
+    </script>
+</body>
+</html>
