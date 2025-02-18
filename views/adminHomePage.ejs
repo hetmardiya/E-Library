@@ -163,6 +163,11 @@
             cursor: pointer;
             font-weight: 500;
             transition: background 0.3s ease;
+
+            & a {
+                color: white;
+                text-decoration: none;
+            }
         }
 
         .download-btn:hover {
@@ -277,10 +282,8 @@
             <div class="circle">M</div>
         </div>
         <div class="nav-links">
-            <a href="#">Browse</a>
-            <a href="#">My Books</a>
-            <a href="#">Reading Lists</a>
-            <a href="#">Join Now</a>
+            <a href="/">Go To Home</a>
+            <a href="/help">Help Center</a>
         </div>
     </nav>
 
@@ -288,29 +291,26 @@
         <section class="main-content">
             <div class="card">
                 <div class="card-image"></div>
-                <h3>Author Account</h3>
+                <h3>Author Account Detail</h3>
                 <p>Explore countless worlds through stories</p>
                 <div class="SLbtn">
-                    <button class="download-btn">Sign In</button>
-                    <button class="download-btn">Log In</button>
+                    <button class="download-btn"><a href="/admin/authorDetail">Get Details</a></button>
                 </div>
             </div>
             <div class="card">
                 <div class="card-image"></div>
-                <h3>Reader Account</h3>
+                <h3>Reader Account Details</h3>
                 <p>Textbooks, journals, and research papers</p>
                 <div class="SLbtn">
-                    <button class="download-btn">Sign In</button>
-                    <button class="download-btn">Log In</button>
+                    <button class="download-btn"><a href="/admin/readerDetail">Get Details</a></button>
                 </div>
             </div>
             <div class="card">
                 <div class="card-image"></div>
-                <h3>Admin Account</h3>
+                <h3>All Books Details</h3>
                 <p>Latest publications and periodicals</p>
                 <div class="SLbtn">
-                    <!-- <button class="download-btn">Sign In</button> -->
-                    <button class="download-btn">Log In</button>
+                    <button class="download-btn"><a href="/admin/booksDetail">Get Details</a></button>
                 </div>
             </div>
         </section>

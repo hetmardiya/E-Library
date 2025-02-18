@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Libretto</title>
+    <style>
+        :root {
+            --primary: #2c5282;
+            --secondary: #f8f9fa;
+            --accent: #805ad5;
+            --text: #2d3748;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header Section */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a365d 100%);
+            padding: 2rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Table Container */
+        .table-container {
+            max-width: 1200px;
+            margin: -4rem auto 4rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Button Styles */
+        button {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(44, 82, 130, 0.2);
+        }
+
+        #addRowBtn {
+            margin-bottom: 2rem;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        thead th {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a365d 100%);
+            color: white;
+            padding: 1.2rem;
+            font-weight: 500;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--secondary);
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: var(--secondary);
+            transform: scale(1.01);
+        }
+
+        td {
+            padding: 1.2rem;
+            color: var(--text);
+        }
+
+        .delete-btn {
+            background: #ff5757;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 20px;
+        }
+
+        .delete-btn:hover {
+            background: #ff3333;
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-content h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--secondary);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .modal-input:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(128, 90, 213, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        #cancelBtn {
+            background: #gray;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .table-container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            thead th {
+                padding: 1rem 0.5rem;
+            }
+
+            td {
+                padding: 1rem 0.5rem;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            button {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .modal-buttons {
+                flex-direction: column;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tr {
+                display: block;
+                margin-bottom: 1.5rem;
+                border: 1px solid var(--secondary);
+                border-radius: 8px;
+                padding: 1rem;
+            }
+
+            td {
+                display: block;
+                text-align: right;
+                padding: 0.5rem;
+                position: relative;
+            }
+
+            td:before {
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                color: var(--primary);
+            }
+        }
+        footer{
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 100;
+        }
+        .nav {
+            background: var(--primary);
+            position: relative;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: black;
+            font-size: xx-large;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: large;
+            transition: all 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: white;
+            background-color: green;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/" style="color: white; text-decoration: none;">
+            <h2>Libretto</h2>
+        </a>
+        <div class="nav-links">
+            <a href="/admin/homePage">Go To Home</a>
+            <a href="/help">Help Center</a>
+        </div>
+    </nav>
+    <div class="header">
+        <h1>Admin Dashboard</h1>
+    </div>
+    <div class="table-container">
+        <div class="header-actions">
+            <button id="addRowBtn"><span>+</span> Add Row</button>
+        </div>
+
+        <table id="dynamicTable">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Table rows will be dynamically generated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal for adding new rows -->
+    <div class="modal" id="addModal">
+        <div class="modal-content">
+            <h3>Add New Row</h3>
+            <input type="text" class="modal-input" id="newName" placeholder="Enter Name">
+            <div class="modal-buttons">
+                <button id="cancelBtn">Cancel</button>
+                <button id="saveBtn">Save</button>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <p>&copy; 2021 Libretto. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Sample initial data
+        let rowData = [
+            { name: 'Sample Book 1' },
+            { name: 'Sample Book 2' },
+            { name: 'Sample Book 3' }
+        ];
+
+        function renderTable() {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+
+            rowData.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${row.name}</td>
+                    <td><button class="delete-btn" data-index="${index}">Delete</button></td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Event delegation for delete buttons
+        document.getElementById('tableBody').addEventListener('click', (e) => {
+            if (e.target.classList.contains('delete-btn')) {
+                const index = e.target.dataset.index;
+                if (confirm('Are you sure you want to delete this row?')) {
+                    rowData.splice(index, 1);
+                    renderTable();
+                }
+            }
+        });
+
+        // Modal functionality
+        const addModal = document.getElementById('addModal');
+        const addRowBtn = document.getElementById('addRowBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const newNameInput = document.getElementById('newName');
+
+        addRowBtn.addEventListener('click', () => {
+            addModal.classList.add('show');
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            addModal.classList.remove('show');
+            newNameInput.value = '';
+        });
+
+        saveBtn.addEventListener('click', () => {
+            const newName = newNameInput.value.trim();
+            if (newName) {
+                rowData.push({ name: newName });
+                renderTable();
+                addModal.classList.remove('show');
+                newNameInput.value = '';
+            } else {
+                alert('Please enter a name.');
+            }
+        });
+
+        // Initial table render
+        renderTable();
+    </script>
+</body>
+</html>
