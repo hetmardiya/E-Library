@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Books - Libretto</title>
+    <style>
+        :root {
+            --primary: #2c5282;
+            --secondary: #f8f9fa;
+            --accent: #805ad5;
+            --text: #2d3748;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            line-height: 1.6;
+        }
+
+        /* Header styles */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a365d 100%);
+            padding: 1.5rem 0;
+            color: white;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Search Section */
+        .search-section {
+            max-width: 1200px;
+            margin: -2rem auto 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 1;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(128, 90, 213, 0.1);
+        }
+
+        .sort-select {
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            min-width: 150px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sort-select:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(44, 82, 130, 0.2);
+        }
+
+        /* Results Section */
+        .results-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .book-cover {
+            width: 100%;
+            min-height: 300px;
+            object-fit: cover;
+            border-bottom: 4px solid var(--accent);
+        }
+
+        .book-info {
+            padding: 1.5rem;
+        }
+
+        .book-title {
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .book-author {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .book-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .star {
+            color: gold;
+        }
+
+        .view-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(44, 82, 130, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .search-section {
+                margin: -1rem 1rem 2rem;
+                padding: 1.5rem;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+
+            .search-input,
+            .sort-select,
+            .search-btn {
+                width: 100%;
+            }
+
+            .results-section {
+                padding: 0 1rem;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Book Details Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 900px;
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .book-detail-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+
+        .book-detail-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .book-detail-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .book-detail-title {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .book-detail-subtitle {
+            color: var(--text);
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        .book-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            background: var(--secondary);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .meta-label {
+            color: var(--text);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .meta-value {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .book-description {
+            line-height: 1.8;
+            color: var(--text);
+            margin: 1rem 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .download-btn,
+        .back-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+        }
+
+        .back-btn {
+            background: var(--secondary);
+            color: var(--text);
+        }
+
+        .download-btn:hover,
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        @media (max-width: 768px) {
+            .book-detail-container {
+                grid-template-columns: 1fr;
+            }
+
+            .book-detail-image {
+                height: 300px;
+                width: 200px;
+                margin: 0 auto;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" style="color: white; text-decoration: none;">
+                <h2>Libretto</h2>
+            </a>
+            <div class="nav-links">
+                <a href="/reader/readerHomePage">Home</a>
+                <a href="/help">Help</a>
+                <a href="/about">About Us</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="search-section">
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search books by title, author, or genre...">
+            <select class="sort-select">
+                <option value="">Sort by...</option>
+                <option value="title">Title</option>
+                <option value="author">Author</option>
+                <option value="rating">Rating</option>
+                <option value="newest">Newest</option>
+            </select>
+            <button class="search-btn">Search</button>
+        </div>
+    </section>
+
+    <div class="loader" style="display: none; text-align: center; margin: 2rem;">
+        <div class="spinner">Loading...</div>
+    </div>
+
+    <section class="results-section">
+        <div id="searchResults" class="results-grid">
+            <!-- Results will be populated here -->
+        </div>
+        
+        <div id="bookDetails" class="modal">
+            <div class="modal-content">
+                <div class="book-detail-container">
+                    <img id="bookCover" class="book-detail-image" alt="Book Cover">
+                    <div class="book-detail-info">
+                        <h2 id="bookTitle" class="book-detail-title"></h2>
+                        <p id="bookAuthors" class="book-detail-subtitle"></p>
+                        
+                        <div class="book-meta">
+                            <div class="meta-item" id="bookPages">
+                                <span class="meta-label">Pages</span>
+                                <span></span>
+                            </div>
+                            <div class="meta-item" id="bookYear">
+                                <span class="meta-label">Year</span>
+                                <span></span>
+                            </div>
+                            <div class="meta-item" id="bookPublisher">
+                                <span class="meta-label">Publisher</span>
+                                <span></span>
+                            </div>
+                        </div>
+                        
+                        <div id="bookDescription" class="book-description"></div>
+                        
+                        <div class="action-buttons">
+                            <a id="downloadLink" class="download-btn" target="_blank">Download Book</a>
+                            <button id="backBtn" class="back-btn">Back to Results</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        // Global state to store search results
+        let currentSearchResults = [];
+        // Function to show/hide loader
+        function toggleLoader(show) {
+            document.querySelector('.loader').style.display = show ? 'block' : 'none';
+        }
+
+        // Function to display error messages
+        function displayError(message) {
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = `<p class="error-message">${message}</p>`;
+        }
+
+        // Function to search books
+        async function searchBooks(query) {
+            try {
+                toggleLoader(true);
+                const response = await fetch(`https://www.dbooks.org/api/search/${encodeURIComponent(query)}`);
+                const data = await response.json();
+                
+                if (data.status === "ok" && data.books) {
+                    currentSearchResults = data.books;
+                    sortAndDisplayResults();
+                } else {
+                    displayError("No books found. Try a different search term.");
+                }
+            } catch (error) {
+                displayError("An error occurred while searching.");
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        // Function to sort results
+        function sortAndDisplayResults() {
+            const sortBy = document.querySelector('.sort-select').value;
+            let sortedResults = [...currentSearchResults];
+            
+            switch(sortBy) {
+                case 'title':
+                    sortedResults.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+                case 'author':
+                    sortedResults.sort((a, b) => {
+                        const authorA = a.authors || 'Unknown';
+                        const authorB = b.authors || 'Unknown';
+                        return authorA.localeCompare(authorB);
+                    });
+                    break;
+            }
+            
+            displaySearchResults(sortedResults);
+        }
+
+        // Function to display search results
+        function displaySearchResults(books) {
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = '';
+            
+            if (!books || books.length === 0) {
+                displayError("No books found. Try a different search term.");
+                return;
+            }
+            
+            books.forEach(book => {
+                const bookCard = document.createElement('div');
+                bookCard.className = 'book-card';
+                bookCard.innerHTML = `
+                    <img src="${book.image}" alt="${book.title}" class="book-cover">
+                    <div class="book-info">
+                        <h3 class="book-title">${book.title}</h3>
+                        <p class="book-author">${book.authors || 'Unknown Author'}</p>
+                        </div>
+                        <div>
+                            <button class="view-btn">View Details</button>
+                        </div>
+                `;
+                
+                bookCard.querySelector('.view-btn').addEventListener('click', () => fetchBookDetails(book.id));
+                searchResults.appendChild(bookCard);
+            });
+        }
+
+        // Function to fetch and display book details
+        async function fetchBookDetails(id) {
+            try {
+                toggleLoader(true);
+                const response = await fetch(`https://www.dbooks.org/api/book/${id}`);
+                const book = await response.json();
+                
+                if (book) {
+                    document.getElementById('bookCover').src = book.image;
+                    document.getElementById('bookTitle').textContent = book.title;
+                    document.getElementById('bookAuthors').textContent = `By ${book.authors || 'Unknown Author'}`;
+                    document.getElementById('bookDescription').textContent = book.description || 'No description available.';
+                    
+                    document.querySelector('#bookPages span:last-child').textContent = book.pages || 'N/A';
+                    document.querySelector('#bookYear span:last-child').textContent = book.year || 'N/A';
+                    document.querySelector('#bookPublisher span:last-child').textContent = book.publisher || 'N/A';
+                    
+                    const downloadLink = document.getElementById('downloadLink');
+                    downloadLink.href = book.download;
+                    downloadLink.style.display = book.download ? 'inline-block' : 'none';
+                    
+                    document.getElementById('bookDetails').classList.add('active');
+                }
+            } catch (error) {
+                displayError("Error fetching book details.");
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.querySelector('.search-input');
+            const searchBtn = document.querySelector('.search-btn');
+            const sortSelect = document.querySelector('.sort-select');
+            const backBtn = document.getElementById('backBtn');
+            
+            // Load initial books
+            searchBooks('recent');
+            
+            // Search button click
+            searchBtn.addEventListener('click', () => {
+                const query = searchInput.value.trim();
+                if (query) searchBooks(query);
+            });
+            
+            // Enter key in search input
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const query = searchInput.value.trim();
+                    if (query) searchBooks(query);
+                }
+            });
+            
+            // Sort change
+            sortSelect.addEventListener('change', sortAndDisplayResults);
+            
+            // Back button click
+            backBtn.addEventListener('click', () => {
+                document.getElementById('bookDetails').classList.remove('active');
+            });
+            
+            // Close modal when clicking outside
+            document.getElementById('bookDetails').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('bookDetails')) {
+                    document.getElementById('bookDetails').classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

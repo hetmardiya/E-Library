@@ -3,16 +3,23 @@ const app = express();
 require('dotenv').config();
 const path = require('path');
 const mongodbConnection = require('./config/mongodb-connection.js');
+const cookieParser = require('cookie-parser');
+const expressSession = require('express-session');
+const flash = require('connect-flash');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cookieParser());
+app.use(expressSession({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(flash());
 
 app.set('view engine', 'ejs');
-app.use(express.static(path.join(__dirname,"views")));
 app.use(express.static('public'));
-
-const cookieParser = require('cookie-parser')
-app.use(cookieParser())
+app.use(express.static(path.join(__dirname,"views")));
 
 const landingpage = require('./routes/landingPage.js');
 app.use("/", landingpage);

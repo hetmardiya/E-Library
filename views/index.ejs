@@ -267,10 +267,30 @@
                 padding: 1rem;
             }
         }
+
+        .success-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c5282;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
     </style>
 </head>
 
 <body>
+    <% if(success && success.length > 0) { %>
+        <div id="successMessage" class="success-message">
+            <span><%= success %></span>
+        </div>
+    <% } %>
     <header class="hero">
         <h1>Welcome to Libretto</h1>
         <p>Your Gateway to Endless Knowledge and Stories.</p>
@@ -323,6 +343,20 @@
     <footer class="footer">
         <p>&copy; 2023 Libretto Online Library. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const successMessage = document.getElementById('successMessage');
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.style.opacity = '0';
+                    setTimeout(() => {
+                        successMessage.remove();
+                    }, 500);
+                }, 3000);
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('main');
+    res.render('main', {success: ""});
 });
 router.get('/contact', (req, res) => {
     res.render('contact');
@@ -14,11 +14,12 @@ router.get('/feedback', (req, res) => {
     res.render('feedback');
 });
 router.get('/index', (req, res) => {
-    res.render('index');
+    res.render('index' , {success: ""});
 });
 router.get('/help', (req, res) => {
     res.render('help');
 });
+
 
 
 module.exports = router;
