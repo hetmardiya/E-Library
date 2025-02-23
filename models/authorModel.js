@@ -1,45 +1,25 @@
 const mongoose = require('mongoose');
 
 const authorSchema = new mongoose.Schema({
-    fname: {
-        type: String,
-        required: true,
-        minlength: 3,
-        maxlength: 50
-    },
-    lname: {
-        type: String,
-        required: true,
-        minlength: 3,
-        maxlength: 50
-    },
+    picture: Buffer,
+    fname: String,
+    lname: String,
     email: {
         type: String,
         required: true,
-        minlength: 5,
-        maxlength: 255
+        unique: true
     },
-    phoneNumber: {
-        type: Number,
-        required: true,
-        minlength: 10,
-        maxlength: 10
-    },
-    password: {
+    phoneNumber: String,
+    password: String,
+    address: String,
+    bio: {
         type: String,
-        required: true,
-        minlength: 5,
-        maxlength: 1024
+        default: ''
     },
-    address: {
-        type: String,
-        required: true,
-        minlength: 5,
-        maxlength: 255
-    }
-}, 
-{
-    timestamps: true
+    publishedBooks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Book'
+    }]
 });
 
 module.exports = mongoose.model('Author', authorSchema);

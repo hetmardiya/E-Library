@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Account - Libretto</title>
+    <style>
+        :root {
+            --primary: #2c5282;
+            --secondary: #f8f9fa;
+            --accent: #805ad5;
+            --danger: #e53e3e;
+            --text: #2d3748;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .delete-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .warning-icon {
+            font-size: 4rem;
+            color: var(--danger);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            color: var(--danger);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .warning-text {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .email-input:focus {
+            border-color: var(--danger);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .delete-btn {
+            background: var(--danger);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background: #c53030;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .cancel-btn {
+            background: var(--secondary);
+            color: var(--text);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-btn:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 480px) {
+            .delete-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .button-group button,
+            .button-group a {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="delete-container">
+        <div class="warning-icon">⚠️</div>
+        <h1>Delete Author Account</h1>
+        <p class="warning-text">
+            This action cannot be undone. Please enter your email address to confirm deletion of your account and all associated data.
+        </p>
+
+        <form id="deleteForm" action="/author/confirm-delete" method="POST">
+            <input 
+                type="email" 
+                class="email-input" 
+                name="email" 
+                placeholder="Enter your email to confirm" 
+                required
+                value="<%= author.email %>"
+                readonly>
+            
+            <div class="button-group">
+                <a href="/author/authorHomePage" class="cancel-btn">Cancel</a>
+                <button type="submit" class="delete-btn">Delete Account</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('deleteForm').addEventListener('submit', function(e) {
+            if (!confirm('Are you absolutely sure you want to delete your account? This is permanent!')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

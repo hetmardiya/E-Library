@@ -272,6 +272,40 @@
                 padding: 0.5rem 1rem;
             }
         }
+
+        .success-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c5282;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .edit-profile-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 1rem;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            background-color: var(--accent);
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .edit-profile-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
     </style>
 </head>
 <body>
@@ -285,18 +319,33 @@
                 <a href="/contact">Contact Us</a>
                 <a href="/about">About Us</a>
                 <a href="/feedback">Feedback</a>
+                <a href="/author/LogOut">Log Out</a>
+                <a href="/author/delete-account">Delete Account</a>
             </div>
         </nav>
         <div class="container">
             <div class="author-profile">
-                <img src="author-placeholder.jpg" alt="Author Name" class="author-image">
+                <img src="data:image/jpeg;base64,<%= author.picture.toString('base64') %>" 
+                     alt="<%= author.fname %>" 
+                     class="author-image">
                 <div class="author-info">
-                    <h1>Sarah J. Mitchell</h1>
-                    <p class="author-bio">Award-winning author of contemporary fiction, with over 15 years of storytelling experience. Specializing in mystery and psychological thrillers.</p>
+                    <h1><%= author.fname %> <%= author.lname %></h1>
+                    <p class="author-bio">
+                        Email: <%= author.email %><br>
+                        Phone: <%= author.phoneNumber %><br>
+                        Address: <%= author.address %>
+                    </p>
+                    <a href="/author/edit-profile" class="edit-profile-btn">Edit Profile</a>
                 </div>
             </div>
         </div>
     </header>
+
+    <% if(success && success.length > 0) { %>
+        <div id="successMessage" class="success-message">
+            <span><%= success %></span>
+        </div>
+    <% } %>
 
     <main class="container">
         <div class="stats-grid">
@@ -386,6 +435,18 @@
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
         }, 5000);
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const successMessage = document.getElementById("successMessage");
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.style.opacity = "0";
+                    setTimeout(() => {
+                        successMessage.remove();
+                    }, 500);
+                }, 3000);
+            }
+        });
     </script>
 </body>
 </html>
