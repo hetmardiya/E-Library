@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Registration - Libretto</title>
+    <title>Admin Login - Libretto</title>
     <style>
         :root {
             --primary: #2c5282;
@@ -185,6 +185,37 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: #2c5282;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -204,64 +235,18 @@
         <p>Join our team to manage and enhance the library experience</p>
     </section>
 
-    <div class="form-container">
-        <div class="form-header">
-            <h2>Create Admin Account</h2>
-            <p>Please fill in all required information</p>
-        </div>
-
-        <form action="#" method="POST">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="firstName">First Name*</label>
-                    <input type="text" id="firstName" >
-                </div>
-
-                <div class="form-group">
-                    <label for="middleName">Middle Name</label>
-                    <input type="text" id="middleName">
-                </div>
-
-                <div class="form-group">
-                    <label for="lastName">Last Name*</label>
-                    <input type="text" id="lastName" >
-                </div>
-
-                <div class="form-group">
-                    <label for="dob">Date of Birth*</label>
-                    <input type="date" id="dob" >
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email Address*</label>
-                    <input type="email" id="email" >
-                </div>
-
-                <div class="form-group">
-                    <label for="phone">Phone Number*</label>
-                    <input type="tel" id="phone" >
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Password*</label>
-                    <input type="password" id="password" >
-                </div>
-
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm Password*</label>
-                    <input type="password" id="confirmPassword" >
-                </div>
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form action="/admin/adminLogin" method="POST">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
             </div>
-
-            <div class="security-questions">
-                <h3>Security Information</h3>
-                <div class="form-group">
-                    <label for="friendName">Best Friend's Name*</label>
-                    <input type="text" id="friendName" >
-                </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
             </div>
-
-            <button type="submit" class="submit-btn">Go Into Admin Side</button>
+            <button type="submit" class="submit-btn">Login</button>
         </form>
     </div>
 

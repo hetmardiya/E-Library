@@ -17,6 +17,9 @@ router.get("/LogIn", (req, res) => res.render("loginFormAuthor"));
 router.post('/register', register);
 router.post("/LogIn", login);
 router.get("/LogOut", logout);
+router.get("/BookForm",(req,res)=>{
+  res.render("browseBooks");
+})
 
 // Protected routes
 router.get("/authorHomePage", isLoggedIn, async (req, res) => {
