@@ -39,6 +39,10 @@ const readerSchema = new mongoose.Schema({
         maxlength: 255
     },
     picture: Buffer,
+    purchasedBooks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Book'
+    }]
 }, 
 {
     timestamps: true

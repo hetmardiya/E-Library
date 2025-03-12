@@ -267,6 +267,44 @@
                 padding: 1rem;
             }
         }
+
+        .feedback-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feedback-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--accent);
+        }
+
+        .feedback-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .feedback-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .feedback-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feedback-card p {
+            color: #666;
+        }
     </style>
 </head>
 
@@ -312,6 +350,19 @@
                 <div class="SLbtn">
                     <button class="download-btn"><a href="/admin/booksDetail">Get Details</a></button>
                 </div>
+            </div>
+        </section>
+
+        <section class="feedback-cards">
+            <div class="feedback-card" onclick="window.location.href='/admin/authorFeedbacks'">
+                <div class="feedback-icon">📝</div>
+                <h3>Author Feedbacks</h3>
+                <p>View and manage author feedback submissions</p>
+            </div>
+            <div class="feedback-card" onclick="window.location.href='/admin/readerFeedbacks'">
+                <div class="feedback-icon">📚</div>
+                <h3>Reader Feedbacks</h3>
+                <p>View and manage reader feedback submissions</p>
             </div>
         </section>
     </main>

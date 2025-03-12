@@ -179,6 +179,58 @@
             background-color: green;
             border-radius: 10px;
         }
+
+        .feedback-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .feedback-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 0.8rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(128, 90, 213, 0.1);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
     </style>
 </head>
 <body>
@@ -201,41 +253,31 @@
     </section>
 
     <div class="feedback-container">
-        <h2>Rate Your Experience</h2>
-        
-        <div class="rating-group">
-            <div class="rating-item">
-                <div class="emoji">😢</div>
-                <p>Poor</p>
-            </div>
-            <div class="rating-item">
-                <div class="emoji">😐</div>
-                <p>Fair</p>
-            </div>
-            <div class="rating-item">
-                <div class="emoji">🙂</div>
-                <p>Good</p>
-            </div>
-            <div class="rating-item">
-                <div class="emoji">😄</div>
-                <p>Excellent</p>
-            </div>
+        <div class="feedback-header">
+            <h1>Share Your Feedback</h1>
+            <p>We value your opinion and suggestions</p>
         </div>
 
-        <h3>What aspects are you reviewing?</h3>
-        <div class="category-tags">
-            <span class="tag">Book Collection</span>
-            <span class="tag">User Interface</span>
-            <span class="tag">Customer Support</span>
-            <span class="tag">Loading Speed</span>
-            <span class="tag">Mobile App</span>
-        </div>
+        <form class="feedback-form" action="<%= userType === 'author' ? '/author/submit-feedback' : '/feedback' %>" method="POST">
+            <input type="hidden" name="userType" value="<%= userType %>">
+            
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="<%= user.fname ? `${user.fname} ${user.lname}` : '' %>" required>
+            </div>
 
-        <div class="feedback-form">
-            <h3>Tell us more</h3>
-            <textarea placeholder="Share your thoughts with us..."></textarea>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="<%= user.email || '' %>" <%= user.email ? 'readonly' : 'required' %>>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Your Feedback</label>
+                <textarea id="message" name="message" rows="6" required></textarea>
+            </div>
+
             <button type="submit" class="submit-btn">Submit Feedback</button>
-        </div>
+        </form>
     </div>
 
     <section class="testimonials">

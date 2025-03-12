@@ -7,8 +7,9 @@ const {
 } = require("../controller/adminAuthController.js");
 const isLoggedIn = require("../middleware/adminLoggedIn.js");
 const adminModel = require("../models/adminModel.js");
-const authorModel = require("../models/authorModel.js"); // Add this line
-const readerModel = require("../models/readerModel.js"); // Add this line
+const authorModel = require("../models/authorModel.js");
+const readerModel = require("../models/readerModel.js");
+const feedbackModel = require("../models/feedbackModel.js"); // Add this line
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../utils/generateToken.js");
 
@@ -116,6 +117,40 @@ router.delete("/delete-reader/:id", isLoggedIn, isAdmin, async (req, res) => {
     } catch (error) {
         console.error('Error deleting reader:', error);
         res.status(500).json({ message: 'Error deleting reader' });
+    }
+});
+
+// Feedback routes
+router.get("/authorFeedbacks", isLoggedIn, isAdmin, async (req, res) => {
+    try {
+        const feedbacks = await feedbackModel.find({ userType: 'author' })
+            .sort({ createdAt: -1 }); // Sort by newest first
+        res.render("adminAuthorFeedback", { feedbacks });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).render('error404', { message: 'Error loading feedbacks' });
+    }
+});
+
+router.get("/readerFeedbacks", isLoggedIn, isAdmin, async (req, res) => {
+    try {
+        const feedbacks = await feedbackModel.find({ userType: 'reader' });
+        res.render("adminReaderFeedback", { feedbacks });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).render('error404', { message: 'Error loading feedbacks' });
+    }
+});
+
+router.delete("/delete-feedback/:id", isLoggedIn, isAdmin, async (req, res) => {
+    try {
+        const deletedFeedback = await feedbackModel.findByIdAndDelete(req.params.id);
+        if (!deletedFeedback) {
+            return res.status(404).json({ message: 'Feedback not found' });
+        }
+        res.status(200).json({ message: 'Feedback deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting feedback' });
     }
 });
 

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Book - Libretto</title>
+    <style>
+        /* Copy base styles from premiumBooks.ejs */
+        :root {
+            --primary: #2c5282;
+            --secondary: #f8f9fa;
+            --accent: #805ad5;
+            --text: #2d3748;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .purchase-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .book-details {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .total-section {
+            border-top: 2px solid var(--secondary);
+            margin-top: 2rem;
+            padding-top: 1rem;
+        }
+
+        .purchase-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="purchase-container">
+        <h1>Purchase Book</h1>
+        <div class="book-details">
+            <img src="data:image/jpeg;base64,<%= book.cover.toString('base64') %>" 
+                 alt="<%= book.title %>"
+                 style="width: 100%; border-radius: 8px;">
+            <div>
+                <h2><%= book.title %></h2>
+                <p>By <%= book.authorName %></p>
+                <p><%= book.description %></p>
+            </div>
+        </div>
+        
+        <div class="total-section">
+            <h3>Order Summary</h3>
+            <p>Book Price: ₹<%= book.price %></p>
+            <p>Shipping: ₹50</p>
+            <p><strong>Total: ₹<%= book.price + 50 %></strong></p>
+        </div>
+
+        <form action="/reader/purchase/<%= book._id %>" method="POST">
+            <button type="submit" class="purchase-btn">Confirm Purchase</button>
+        </form>
+    </div>
+</body>
+</html>
