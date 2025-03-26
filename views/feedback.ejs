@@ -240,7 +240,6 @@
             <h2>Libretto</h2>
         </a>
         <div class="nav-links">
-            <a href="/contact">Contact Us</a>
             <a href="/about">About Us</a>
             <a href="/feedback">Feedback</a>
         </div>
@@ -258,17 +257,19 @@
             <p>We value your opinion and suggestions</p>
         </div>
 
-        <form class="feedback-form" action="<%= userType === 'author' ? '/author/submit-feedback' : '/feedback' %>" method="POST">
+        <form class="feedback-form" id="feedbackForm" action="<%= userType === 'author' ? '/author/submit-feedback' : '/feedback' %>" method="POST">
             <input type="hidden" name="userType" value="<%= userType %>">
             
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" id="name" name="name" value="<%= user.fname ? `${user.fname} ${user.lname}` : '' %>" required>
+                <input type="text" id="name" name="name" pattern="[A-Za-z ]+" 
+                       value="<%= user.fname ? `${user.fname} ${user.lname}` : '' %>" required>
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" value="<%= user.email || '' %>" <%= user.email ? 'readonly' : 'required' %>>
+                <input type="email" id="email" name="email" 
+                       value="<%= user.email || '' %>" <%= user.email ? 'readonly' : 'required' %>>
             </div>
 
             <div class="form-group">
@@ -297,5 +298,10 @@
      <footer>
         <p>&copy; 2023 Libretto. All rights reserved.</p>
      </footer>
+
+    <script src="/js/formValidation.js"></script>
+    <script>
+        validateForm('feedbackForm');
+    </script>
 </body>
 </html>

@@ -9,6 +9,7 @@ const flash = require('connect-flash');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(express.static('public'));
 app.use(cookieParser());
 app.use(expressSession({
     secret: process.env.SESSION_SECRET,

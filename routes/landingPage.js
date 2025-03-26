@@ -32,12 +32,29 @@ router.get('/help', (req, res) => {
 router.post('/feedback', async (req, res) => {
     try {
         const { name, email, message } = req.body;
+        
+        // Validation
+        if (!name || !email || !message) {
+            return res.status(400).render('error404', { 
+                message: 'All fields are required' 
+            });
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).render('error404', { 
+                message: 'Invalid email format' 
+            });
+        }
+
         await feedbackModel.create({
             name,
             email,
             message,
-            userType: 'visitor' // For general visitors
+            userType: 'visitor'
         });
+
         req.flash('success', 'Feedback submitted successfully');
         res.redirect('/');
     } catch (error) {

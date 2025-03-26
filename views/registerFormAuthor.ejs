@@ -307,7 +307,6 @@
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
                 <a href="login.html">Login</a>
             </div>
         </nav>
@@ -320,16 +319,16 @@
 
     <div class="form-container">
         <h2>Create Your Account</h2>
-        <form action="/author/register" method="POST" enctype="multipart/form-data">
+        <form id="authorRegistrationForm" action="/author/register" method="POST" enctype="multipart/form-data">
             <div class="form-grid">
                 <div class="form-group">
                     <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" name="fname" required>
+                    <input type="text" id="firstName" name="fname" pattern="[A-Za-z ]+" required>
                 </div>
 
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" name="lname" required>
+                    <input type="text" id="lastName" name="lname" pattern="[A-Za-z ]+" required>
                 </div>
 
                 <div class="form-group">
@@ -339,17 +338,14 @@
 
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phoneNumber" required>
+                    <input type="tel" id="phone" name="phoneNumber" maxlength="10" required>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm Password</label>
-                    <input type="password" id="confirmPassword" required>
+                    <input type="password" id="password" name="password" minlength="5" 
+                           oninvalid="this.setCustomValidity('Password must be at least 5 characters long')"
+                           oninput="this.setCustomValidity('')" required>
                 </div>
 
                 <div class="form-group" style="grid-column: 1 / -1;">
@@ -469,6 +465,9 @@
                 reader.readAsDataURL(file);
             }
         });
+
+        validateForm('authorRegistrationForm');
     </script>
+    <script src="/js/formValidation.js"></script>
 </body>
 </html>

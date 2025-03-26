@@ -42,6 +42,12 @@ if (process.env.NODE_ENV === "development") {
 });
 }
 
+// Add this before other routes
+router.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    next();
+});
+
 // Login routes
 router.get("/adminLogin", (req, res) => {
     if (req.cookies.jwt) {
@@ -159,6 +165,13 @@ router.get("/readerDetail", (req, res) => {
 });
 router.get("/booksDetail", (req, res) => {
   res.render("adminBooksTable");
+});
+
+// Add this after all routes
+router.use((req, res) => {
+    res.status(404).render('error404', {
+        message: 'Page not found'
+    });
 });
 
 module.exports = router;

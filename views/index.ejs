@@ -40,6 +40,24 @@
             padding: 4rem 2rem;
             text-align: center;
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .hero h1, .hero p {
+            position: relative;
+            z-index: 1;
         }
 
         .hero h1 {
@@ -136,6 +154,15 @@
             background: linear-gradient(135deg, #e9d8fd 0%, #d6bcfa 100%);
             border-radius: 8px;
             margin-bottom: 1rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
         }
 
         .card h3 {
@@ -292,17 +319,13 @@
         </div>
     <% } %>
     <header class="hero">
+        <img src="/images/background1.jpeg" alt="Library Background">
         <h1>Welcome to Libretto</h1>
         <p>Your Gateway to Endless Knowledge and Stories.</p>
     </header>
 
     <nav class="nav">
-        <div class="user-circles">
-            <div class="circle">L</div>
-            <div class="circle">M</div>
-        </div>
         <div class="nav-links">
-            <a href="/contact">Contact Us</a>
             <a href="/about">About Us</a>
             <a href="/feedback">Feedback</a>
         </div>
@@ -311,7 +334,9 @@
     <main class="container">
         <section class="main-content">
             <div class="card">
-                <div class="card-image"></div>
+                <div class="card-image">
+                    <img src="/images/author_image.jpeg" alt="Author Image">
+                </div>
                 <h3>Author Account</h3>
                 <p>Explore countless worlds through stories</p>
                 <div class="SLbtn">
@@ -320,7 +345,9 @@
                 </div>
             </div>
             <div class="card">
-                <div class="card-image"></div>
+                <div class="card-image">
+                    <img src="/images/reader_image.jpeg" alt="Reader Image">
+                </div>
                 <h3>Reader Account</h3>
                 <p>Textbooks, journals, and research papers</p>
                 <div class="SLbtn">
@@ -329,7 +356,9 @@
                 </div>
             </div>
             <div class="card">
-                <div class="card-image"></div>
+                <div class="card-image">
+                    <img src="/images/admin_image.jpeg" alt="Admin Image">
+                </div>
                 <h3>Admin Account</h3>
                 <p>Latest publications and periodicals</p>
                 <div class="SLbtn">
