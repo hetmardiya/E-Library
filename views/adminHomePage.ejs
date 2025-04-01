@@ -40,6 +40,24 @@
             padding: 4rem 2rem;
             text-align: center;
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .hero h1, .hero p {
+            position: relative;
+            z-index: 1;
         }
 
         .hero h1 {
@@ -305,26 +323,54 @@
         .feedback-card p {
             color: #666;
         }
+
+        .admin-profile {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1rem;
+        }
+
+        .admin-profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
     </style>
 </head>
 
 <body>
     <header class="hero">
-        <h1>Welcome to Libretto</h1>
-        <p>Your Gateway to Endless Knowledge and Stories.</p>
+        <img src="/images/admin_background.jpeg" alt="Admin Background">
+        <div class="hero-content">
+            <h1>Welcome to Libretto</h1>
+            <p>Your Gateway to Endless Knowledge and Stories.</p>
+        </div>
     </header>
 
     <nav class="nav">
         <div class="nav-links">
+            <div class="admin-profile">
+                
+            </div>
             <a href="/">Go To Home</a>
-            <a href="/help">Help Center</a>
         </div>
     </nav>
 
     <main class="container">
         <section class="main-content">
             <div class="card">
-                <div class="card-image"></div>
+                <div class="card-image">
+                    <img src="/images/admin_author.jpeg" alt="Author Management">
+                </div>
                 <h3>Author Account Detail</h3>
                 <p>Explore countless worlds through stories</p>
                 <div class="SLbtn">
@@ -332,7 +378,9 @@
                 </div>
             </div>
             <div class="card">
-                <div class="card-image"></div>
+                <div class="card-image">
+                    <img src="/images/admin_reader.jpeg" alt="Reader Management">
+                </div>
                 <h3>Reader Account Details</h3>
                 <p>Textbooks, journals, and research papers</p>
                 <div class="SLbtn">

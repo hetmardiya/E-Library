@@ -44,7 +44,7 @@ module.exports.register = async (req, res) => {
         // Generate token and set cookie
         const token = generateToken(reader);
         res.cookie('jwt', token, {
-            expires: new Date(Date.now() + 300000), // 5 minutes
+            expires: new Date(Date.now() + 30 * 60 * 1000), // 30 minutes
             httpOnly: true
         });
 
