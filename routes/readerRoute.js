@@ -41,15 +41,21 @@ router.post('/register', upload.single('picture'), register);
 
 router.get('/readerHomePage', isLoggedIn, async (req, res) => {
     try {
-        let reader = await readerModel.findOne({ email: req.user.email })
-            .populate('purchasedBooks'); // Add this populate call
+        const reader = await readerModel.findOne({ email: req.user.email })
+            .populate({
+                path: 'purchasedBooks',
+                select: 'title cover authorName price description'
+            });
+        
         res.render('readerHomePage', { 
-            reader, 
-            success: req.flash('success') 
+            reader,
+            books: reader.purchasedBooks,
+            success: req.flash('success'),
+            error: req.flash('error')
         });
     } catch (error) {
-        console.error('Error:', error);
-        res.status(500).render('error404', { message: 'Error loading homepage' });
+        console.error('Dashboard error:', error);
+        res.status(500).render('error404', { message: 'Error loading dashboard' });
     }
 });
 
@@ -102,6 +108,7 @@ router.post('/confirm-delete', isLoggedIn, async (req, res) => {
     }
 });
 
+// Show purchase confirmation page
 router.get('/purchase/:bookId', isLoggedIn, async (req, res) => {
     try {
         const book = await bookModel.findById(req.params.bookId);
@@ -110,36 +117,50 @@ router.get('/purchase/:bookId', isLoggedIn, async (req, res) => {
         }
         res.render('purchaseBook', { book });
     } catch (error) {
-        console.error('Error:', error);
         res.status(500).render('error404', { message: 'Error loading purchase page' });
     }
 });
 
-router.post('/purchase/:bookId', isLoggedIn, async (req, res) => {
+// Process purchase confirmation and show payment page
+router.post('/confirm-purchase/:bookId', isLoggedIn, async (req, res) => {
+    try {
+        const book = await bookModel.findById(req.params.bookId);
+        if (!book) {
+            return res.status(404).render('error404', { message: 'Book not found' });
+        }
+        res.render('paymentPage', { book });
+    } catch (error) {
+        res.status(500).render('error404', { message: 'Error processing purchase' });
+    }
+});
+
+// Process payment and complete purchase
+router.post('/process-payment/:bookId', isLoggedIn, async (req, res) => {
     try {
         const book = await bookModel.findById(req.params.bookId);
         const reader = await readerModel.findOne({ email: req.user.email });
-
+        
         if (!book || !reader) {
-            return res.status(404).render('error404', { message: 'Book or reader not found' });
+            req.flash('error', 'Book or reader not found');
+            return res.redirect('/reader/readerHomePage');
+        }
+
+        // Check if book is already purchased
+        if (reader.purchasedBooks.includes(book._id)) {
+            req.flash('error', 'You already own this book');
+            return res.redirect('/reader/readerHomePage');
         }
 
         // Add book to reader's purchased books
-        if (!reader.purchasedBooks) {
-            reader.purchasedBooks = [];
-        }
         reader.purchasedBooks.push(book._id);
         await reader.save();
-
-        // Add reader to book's purchasedBy array
-        book.purchasedBy.push(reader._id);
-        await book.save();
 
         req.flash('success', 'Book purchased successfully!');
         res.redirect('/reader/readerHomePage');
     } catch (error) {
-        console.error('Error:', error);
-        res.status(500).render('error404', { message: 'Error processing purchase' });
+        console.error('Payment error:', error);
+        req.flash('error', 'Payment failed');
+        res.redirect('/reader/readerHomePage');
     }
 });
 
@@ -168,6 +189,101 @@ router.post('/submit-feedback', isLoggedIn, async (req, res) => {
         res.status(500).render('error404', { 
             message: 'Error submitting feedback' 
         });
+    }
+});
+
+// Handle book details and purchase confirmation page
+router.get('/book/:id', isLoggedIn, async (req, res) => {
+    try {
+        const book = await bookModel.findById(req.params.id);
+        if (!book) {
+            return res.status(404).render('error404', { message: 'Book not found' });
+        }
+        res.render('bookDetail', { book });
+    } catch (error) {
+        res.status(500).render('error404', { message: 'Error loading book details' });
+    }
+});
+
+// Render payment page
+router.get('/payment/:bookId', isLoggedIn, async (req, res) => {
+    try {
+        const book = await bookModel.findById(req.params.bookId);
+        if (!book) {
+            return res.status(404).render('error404', { message: 'Book not found' });
+        }
+        res.render('paymentPage', { book });
+    } catch (error) {
+        res.status(500).render('error404', { message: 'Error loading payment page' });
+    }
+});
+
+// Process payment and complete purchase
+router.post('/process-payment/:bookId', isLoggedIn, async (req, res) => {
+    try {
+        const book = await bookModel.findById(req.params.bookId);
+        const reader = await readerModel.findOne({ email: req.user.email });
+        
+        if (!book || !reader) {
+            req.flash('error', 'Book or reader not found');
+            return res.redirect('/reader/readerHomePage');
+        }
+
+        // Check if book is already purchased
+        if (reader.purchasedBooks.includes(book._id)) {
+            req.flash('error', 'You already own this book');
+            return res.redirect('/reader/readerHomePage');
+        }
+
+        // Add book to reader's purchased books
+        reader.purchasedBooks.push(book._id);
+        await reader.save();
+
+        req.flash('success', 'Book purchased successfully!');
+        res.redirect('/reader/readerHomePage');
+    } catch (error) {
+        console.error('Payment error:', error);
+        req.flash('error', 'Payment failed');
+        res.redirect('/reader/readerHomePage');
+    }
+});
+
+router.get('/book/:id', isLoggedIn, async (req, res) => {
+    try {
+        const book = await bookModel.findById(req.params.id);
+        if (!book) {
+            return res.status(404).render('error404', { message: 'Book not found' });
+        }
+        res.render('bookDetail', { book });
+    } catch (error) {
+        res.status(500).render('error404', { message: 'Error loading book details' });
+    }
+});
+
+router.get('/payment/:bookId', isLoggedIn, async (req, res) => {
+    try {
+        const book = await bookModel.findById(req.params.bookId);
+        if (!book) {
+            return res.status(404).render('error404', { message: 'Book not found' });
+        }
+        res.render('paymentPage', { book });
+    } catch (error) {
+        res.status(500).render('error404', { message: 'Error loading payment page' });
+    }
+});
+
+router.post('/process-payment/:bookId', isLoggedIn, async (req, res) => {
+    try {
+        const book = await bookModel.findById(req.params.bookId);
+        const reader = await readerModel.findOne({ email: req.user.email });
+        
+        reader.purchasedBooks.push(book._id);
+        await reader.save();
+
+        req.flash('success', 'Book purchased successfully!');
+        res.redirect('/reader/readerHomePage');
+    } catch (error) {
+        res.status(500).render('error404', { message: 'Payment failed' });
     }
 });
 

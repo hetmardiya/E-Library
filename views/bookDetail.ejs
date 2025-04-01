@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details - Libretto</title>
+    <style>
+        /* Copy styles from other pages */
+        .book-detail-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .book-preview {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .purchase-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="book-detail-container">
+        <div class="book-preview">
+            <img src="data:image/jpeg;base64,<%= book.cover.toString('base64') %>" 
+                 alt="<%= book.title %>"
+                 style="width: 100%; border-radius: 8px;">
+            <div>
+                <h1><%= book.title %></h1>
+                <p>By <%= book.authorName %></p>
+                <p>Price: ₹<%= book.price %></p>
+                <div class="description">
+                    <%= book.description %>
+                </div>
+                <form action="/reader/payment/<%= book._id %>" method="GET">
+                    <button type="submit" class="purchase-btn">Proceed to Payment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

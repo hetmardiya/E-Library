@@ -69,7 +69,7 @@
             <p><strong>Total: ₹<%= book.price + 50 %></strong></p>
         </div>
 
-        <form action="/reader/purchase/<%= book._id %>" method="POST">
+        <form action="/reader/confirm-purchase/<%= book._id %>" method="POST">
             <button type="submit" class="purchase-btn">Confirm Purchase</button>
         </form>
     </div>

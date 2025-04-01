@@ -12,6 +12,15 @@ module.exports = async (req, res, next) => {
         // Verify token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+        // Attach admin to request
+        req.user = decoded;
+
+        // Add this check
+        if (!req.user.email) {
+            res.clearCookie('jwt');
+            return res.redirect('/admin/adminLogin');
+        }
+
         // Check if admin still exists
         const admin = await adminModel.findOne({ email: decoded.email });
         if (!admin) {
@@ -19,8 +28,6 @@ module.exports = async (req, res, next) => {
             return res.redirect('/admin/adminLogin');
         }
 
-        // Attach admin to request
-        req.user = decoded;
         next();
 
     } catch (error) {

@@ -33,6 +33,10 @@ const bookSchema = new mongoose.Schema({
     publishedDate: {
         type: Date,
         default: Date.now
+    },
+    isPremium: {
+        type: Boolean,
+        default: false
     }
 });
 

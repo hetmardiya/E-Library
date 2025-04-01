@@ -32,19 +32,18 @@ module.exports.logIn = async (req, res) => {
         // Generate token
         const token = generateToken(admin);
 
-        // Set cookie
+        // Set cookie with 24 hour expiration
         res.cookie('jwt', token, {
             expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production'
+            httpOnly: true
         });
 
         // Redirect to dashboard
-        res.redirect('/admin/adminDashboard');
+        return res.redirect('/admin/adminDashboard');
 
     } catch (error) {
         console.error('Admin login error:', error);
-        res.status(500).render('error404', { 
+        return res.status(500).render('error404', { 
             message: 'Internal server error' 
         });
     }

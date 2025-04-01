@@ -10,6 +10,7 @@ const adminModel = require("../models/adminModel.js");
 const authorModel = require("../models/authorModel.js");
 const readerModel = require("../models/readerModel.js");
 const feedbackModel = require("../models/feedbackModel.js"); // Add this line
+const bookModel = require('../models/bookModel.js'); // Add this line
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../utils/generateToken.js");
 
@@ -163,8 +164,67 @@ router.delete("/delete-feedback/:id", isLoggedIn, isAdmin, async (req, res) => {
 router.get("/readerDetail", (req, res) => {
   res.render("adminReaderTable");
 });
-router.get("/booksDetail", (req, res) => {
-  res.render("adminBooksTable");
+router.get("/booksDetail", isLoggedIn, isAdmin, async (req, res) => {
+    try {
+        const books = await bookModel.find({}).populate('author', 'fname lname');
+        res.render("adminBooksTable", { books });
+    } catch (error) {
+        res.status(500).render('error404', { 
+            message: 'Error loading books' 
+        });
+    }
+});
+
+router.delete("/delete-book/:id", isLoggedIn, isAdmin, async (req, res) => {
+    try {
+        const deletedBook = await bookModel.findByIdAndDelete(req.params.id);
+        if (!deletedBook) {
+            return res.status(404).json({ message: 'Book not found' });
+        }
+        res.status(200).json({ message: 'Book deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting book' });
+    }
+});
+
+router.get("/booksManagement", isLoggedIn, isAdmin, async (req, res) => {
+    try {
+        const books = await bookModel.find({})
+            .populate('author', 'fname lname')
+            .sort({ createdAt: -1 });
+        res.render("adminBooksTable", { books });
+    } catch (error) {
+        console.error('Error fetching books:', error);
+        res.status(500).render('error404', { 
+            message: 'Error loading books' 
+        });
+    }
+});
+
+router.delete("/delete-book/:id", isLoggedIn, isAdmin, async (req, res) => {
+    try {
+        const deletedBook = await bookModel.findByIdAndDelete(req.params.id);
+        if (!deletedBook) {
+            return res.status(404).json({ message: 'Book not found' });
+        }
+        res.status(200).json({ message: 'Book deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting book:', error);
+        res.status(500).json({ message: 'Error deleting book' });
+    }
+});
+
+router.get("/feedbackManagement", isLoggedIn, isAdmin, async (req, res) => {
+    try {
+        const feedbacks = await feedbackModel.find({})
+            .sort({ createdAt: -1 });
+        res.render("adminFeedbackTable", { feedbacks });
+    } catch (error) {
+        console.error('Error fetching feedbacks:', error);
+        res.status(500).render('error404', { 
+            message: 'Error loading feedbacks' 
+        });
+    }
 });
 
 // Add this after all routes

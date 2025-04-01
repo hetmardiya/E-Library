@@ -23,6 +23,43 @@ router.get("/BookForm",(req,res)=>{
   res.render("browseBooks");
 })
 
+router.get('/reset-password', (req, res) => {
+    res.render('resetPassword', { userType: 'author' });
+});
+
+router.post('/reset-password', async (req, res) => {
+    try {
+        const { email, password, confirmPassword } = req.body;
+        
+        if (password !== confirmPassword) {
+            return res.status(400).render('error404', { 
+                message: 'Passwords do not match' 
+            });
+        }
+
+        const salt = await bcrypt.genSalt(12);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        
+        const author = await authorModel.findOneAndUpdate(
+            { email },
+            { password: hashedPassword }
+        );
+
+        if (!author) {
+            return res.status(404).render('error404', { 
+                message: 'Author not found' 
+            });
+        }
+
+        req.flash('success', 'Password reset successful');
+        res.redirect('/author/LogIn');
+    } catch (error) {
+        res.status(500).render('error404', { 
+            message: 'Error resetting password' 
+        });
+    }
+});
+
 // Protected routes
 router.get("/authorHomePage", isLoggedIn, async (req, res) => {
   try {
