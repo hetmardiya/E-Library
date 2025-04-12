@@ -73,7 +73,7 @@ module.exports.login = async (req, res) => {
         }
         const token = generateToken(reader);
         res.cookie('jwt', token, {
-            expires: new Date(Date.now() + 60000*5),
+            expires: new Date(Date.now() + 30 * 60 * 1000),
             httpOnly: true
         });
         req.flash('success', 'You have successfully logged in');

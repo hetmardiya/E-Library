@@ -37,7 +37,7 @@ module.exports.register = async (req, res) => {
 
             const token = generateToken(author);
             res.cookie('jwt', token, {
-                expires: new Date(Date.now() + 300000),
+                expires: new Date(Date.now() + 30 * 60 * 1000),
                 httpOnly: true
             });
 

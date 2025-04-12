@@ -34,7 +34,7 @@ module.exports.logIn = async (req, res) => {
 
         // Set cookie with 24 hour expiration
         res.cookie('jwt', token, {
-            expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
+            expires: new Date(Date.now() + 30 * 60 * 1000),
             httpOnly: true
         });
 

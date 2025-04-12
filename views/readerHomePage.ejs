@@ -645,7 +645,7 @@
     </header>
 
     <main class="container">
-      <section class="purchased-books container">
+      <!-- <section class="purchased-books container">
         <h2>Your Books</h2>
         <div class="books-slider">
           <div class="books-row">
@@ -666,7 +666,7 @@
             <% } %>
           </div>
         </div>
-      </section>
+      </section> -->
       <section class="purchased-books">
         <h2>Your Purchased Books</h2>
         <div class="books-grid">
@@ -679,9 +679,9 @@
                         <div class="book-info">
                             <h3><%= book.title %></h3>
                             <p>By <%= book.authorName %></p>
-                            <button class="read-btn" onclick="window.location.href='/reader/read-book/<%= book._id %>'">
+                            <!-- <button class="read-btn" onclick="window.location.href='/reader/read-book/<%= book._id %>'">
                                 Read Book
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                 <% }) %>
